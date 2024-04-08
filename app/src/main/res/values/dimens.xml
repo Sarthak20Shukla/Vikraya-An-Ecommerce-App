@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toRightAddressMargin">150dp</dimen>
+    <dimen name="smallButtonwidth">130dp</dimen>
+    <dimen name="smallButtonheight">55dp</dimen>
+    <dimen name="buttonCorners">10dp</dimen>
+</resources>
