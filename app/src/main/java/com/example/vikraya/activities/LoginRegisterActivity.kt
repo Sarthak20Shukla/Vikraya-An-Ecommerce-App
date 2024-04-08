@@ -7,6 +7,6 @@ import com.example.vikraya.R
 class LoginRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_introduction)
+        setContentView(R.layout.activity_login_register)
     }
 }
