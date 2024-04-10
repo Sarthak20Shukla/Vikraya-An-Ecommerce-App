@@ -47,9 +47,6 @@ class RegisterFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.register.collect{
                 when(it){
-                    is Resource.Error -> {
-                        Log.d(TAG,it.message.toString())
-                    }
                     is Resource.Loading -> {
                         binding.buttonRegisterRegister.startAnimation()
 
@@ -59,8 +56,14 @@ class RegisterFragment: Fragment() {
                         binding.buttonRegisterRegister.revertAnimation()
 
                     }
+                    is Resource.Error -> {
+                        Log.e(TAG,it.message.toString())
+                        binding.buttonRegisterRegister.revertAnimation()
+                    }
 
-                    else -> Unit
+
+
+                    is Resource.Unspecified -> Unit
                 }
             }
         }
