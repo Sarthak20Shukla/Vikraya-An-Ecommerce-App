@@ -2,13 +2,19 @@ package com.example.vikraya.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.vikraya.data.User
+import com.example.vikraya.utils.RegisterFieldState
+import com.example.vikraya.utils.RegisterValidation
 import com.example.vikraya.utils.Resource
+import com.example.vikraya.utils.validateEmail
+import com.example.vikraya.utils.validatePassword
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.runBlocking
+import java.nio.channels.Channel
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +23,10 @@ class RegisterViewModel @Inject constructor(
 ) :ViewModel(){
     private val _register=MutableStateFlow<Resource<FirebaseUser>>(Resource.Unspecified())
     val register: Flow<Resource<FirebaseUser>> = _register
-fun createAccountwithEmailandPassword(user: User,password:String){
+private val _validation= kotlinx.coroutines.channels.Channel<RegisterFieldState>()
+    val validation=_validation.receiveAsFlow()
+    fun createAccountwithEmailandPassword(user: User,password:String){
+    if (checkValidation(user, password)) {
     runBlocking {
         _register.emit(Resource.Loading())
     }
@@ -30,5 +39,21 @@ fun createAccountwithEmailandPassword(user: User,password:String){
         .addOnFailureListener {
             _register.value=Resource.Error(it.message.toString())
         }
+} else {
+        val registerFieldsState = RegisterFieldState(
+            validateEmail(user.email), validatePassword(password)
+        )
+        runBlocking {
+            _validation.send(registerFieldsState)
+        }
+    }
 }
+    private fun checkValidation(user: User, password: String): Boolean {
+        val emailValidation = validateEmail(user.email)
+        val passwordValidation = validatePassword(password)
+        val shouldRegister = emailValidation is RegisterValidation.Success &&
+                passwordValidation is RegisterValidation.Success
+
+        return shouldRegister
+    }
 }
