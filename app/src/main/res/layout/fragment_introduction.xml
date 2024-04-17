@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelinetextureleft"
        />
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/buttonStart"
         android:layout_width="@dimen/smallButtonwidth"
         android:layout_height="@dimen/smallButtonheight"
         android:text="Start"
