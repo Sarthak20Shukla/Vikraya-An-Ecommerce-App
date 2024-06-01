@@ -32,7 +32,7 @@ private val _validation= kotlinx.coroutines.channels.Channel<RegisterFieldState>
         _register.emit(Resource.Loading())
     }
     firebaseAuth.createUserWithEmailAndPassword(user.email,password)
-        .addOnSuccessListener {
+        .addOnSuccessListener { it ->
             it.user?.let {
                 saveUserInfo(it.uid, user)
 
