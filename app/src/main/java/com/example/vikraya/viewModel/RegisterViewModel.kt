@@ -36,7 +36,7 @@ private val _validation= kotlinx.coroutines.channels.Channel<RegisterFieldState>
             it.user?.let {
                 saveUserInfo(it.uid, user)
 
-                //_register.value=Resource.Success(it)
+               // _register.value=Resource.Success(it)
             }
         }
         .addOnFailureListener {

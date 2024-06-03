@@ -94,10 +94,6 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             lifecycleScope.launchWhenStarted {
                 viewModel.login.collect {
                     when (it) {
-                        is Resource.Error -> {
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                            binding.buttonLoginLogin.revertAnimation()
-                        }
 
                         is Resource.Loading -> {
                             binding.buttonLoginLogin.startAnimation()
@@ -106,9 +102,13 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                         is Resource.Success -> {
                             binding.buttonLoginLogin.revertAnimation()
                             Intent(requireActivity(), ShopingActivity::class.java).also { intent ->
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 startActivity(intent)
                             }
+                        }
+                        is Resource.Error -> {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            binding.buttonLoginLogin.revertAnimation()
                         }
 
                         else -> Unit
