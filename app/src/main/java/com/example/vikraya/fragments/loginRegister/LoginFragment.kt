@@ -46,7 +46,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         binding.apply {
             buttonLoginLogin.setOnClickListener {
                 val email = edEmailLogin.text.toString().trim()
-                val password = edPasswordLogin.toString()
+                val password = edPasswordLogin.text.toString()
                 viewModel.login(email, password)
 
             }
@@ -101,10 +101,10 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
 
                         is Resource.Success -> {
                             binding.buttonLoginLogin.revertAnimation()
-                            Intent(requireActivity(), ShopingActivity::class.java).also { intent ->
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(intent)
-                            }
+                            val intent = Intent(activity, ShopingActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+
                         }
                         is Resource.Error -> {
                             Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
