@@ -10,9 +10,12 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.Resource
 import com.example.vikraya.R
+import com.example.vikraya.adapters.BestDealsAdapter
+import com.example.vikraya.adapters.BestProductAdapter
 import com.example.vikraya.adapters.SpecialProductsAdapter
 import com.example.vikraya.databinding.FragmentMainCategoryBinding
 import com.example.vikraya.dialog.setupBottomSheetDialog
@@ -25,6 +28,9 @@ private val TAG="MainCategoryFragment"
 class MainCategoryFragment :Fragment(R.layout.fragment_main_category) {
     private lateinit var binding: FragmentMainCategoryBinding
     private lateinit var  specialProductsAdapter: SpecialProductsAdapter
+    private lateinit var  bestDealsAdapter: BestDealsAdapter
+    private lateinit var  bestProductsAdapter: BestProductAdapter
+
     private val viewModel by viewModels<MainCategoryViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +46,8 @@ class MainCategoryFragment :Fragment(R.layout.fragment_main_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSpecialProductsRv()
+        setupBestDealsRv()
+        setupBestProductsRv()
         lifecycleScope.launchWhenStarted {
             viewModel.specialProducts.collectLatest {
                 when(it){
@@ -62,7 +70,68 @@ class MainCategoryFragment :Fragment(R.layout.fragment_main_category) {
                 }
             }
         }
+        lifecycleScope.launchWhenStarted {
+            viewModel.bestDealsProducts.collectLatest {
+                when(it){
+
+                    is com.example.vikraya.utils.Resource.Error ->  {
+                        hideLoading()
+                        Log.e(TAG,it.message.toString())
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    is com.example.vikraya.utils.Resource.Loading -> {
+                        showLoading()
+                    }
+                    is com.example.vikraya.utils.Resource.Success -> {
+                        bestDealsAdapter.differ.submitList(it.data)
+                        hideLoading()
+                    }
+                    else ->Unit
+
+                }
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.bestProducts.collectLatest {
+                when(it){
+
+                    is com.example.vikraya.utils.Resource.Error ->  {
+                        hideLoading()
+                        Log.e(TAG,it.message.toString())
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    is com.example.vikraya.utils.Resource.Loading -> {
+                        showLoading()
+                    }
+                    is com.example.vikraya.utils.Resource.Success -> {
+                        bestProductsAdapter.differ.submitList(it.data)
+                        hideLoading()
+                    }
+                    else ->Unit
+
+                }
+            }
+        }
     }
+
+    private fun setupBestProductsRv() {
+        bestProductsAdapter= BestProductAdapter()
+        binding.rvBestProducts.apply {
+            layoutManager= GridLayoutManager(requireContext(),2,GridLayoutManager.VERTICAL,false)
+            adapter= bestProductsAdapter
+        }
+    }
+
+    private fun setupBestDealsRv() {
+        bestDealsAdapter= BestDealsAdapter()
+        binding.rvBestDealProducts.apply {
+            layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+            adapter= bestDealsAdapter
+       }
+    }
+
     private fun showLoading() {
         binding.mainCategoryProgressbar.visibility=View.VISIBLE
 
