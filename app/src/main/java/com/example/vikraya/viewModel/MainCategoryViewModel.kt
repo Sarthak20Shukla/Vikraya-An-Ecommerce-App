@@ -1,10 +1,12 @@
 package com.example.vikraya.viewModel
 
+import android.app.DownloadManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vikraya.data.Product
 import com.example.vikraya.utils.Resource
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.core.Query
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +25,7 @@ class MainCategoryViewModel @Inject constructor(
 
     private val _bestProducts=MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
     val bestProducts:StateFlow<Resource<List<Product>>> = _bestProducts
+    private val paginginfo = PagingInfo()
     init{
         fetchSpecialProducts()
         fetchBestDeals()
@@ -59,18 +62,29 @@ class MainCategoryViewModel @Inject constructor(
         }
     }
     fun fetchBestProducts() {
-        viewModelScope.launch {
-            _bestProducts.emit(Resource.Loading())
-        }
-        firestore.collection("Products").get().addOnSuccessListener{result ->
-            val bestProducts = result.toObjects(Product::class.java)
+        if (!paginginfo.isPagingEnd)
             viewModelScope.launch {
-                _bestProducts.emit(Resource.Success(bestProducts))
+                _bestProducts.emit(Resource.Loading())
             }
-        }.addOnFailureListener{
+        firestore.collection("Products")./*whereEqualTo("category","Chair").orderBy("id",
+            com.google.firebase.firestore.Query.Direction.ASCENDING).*/limit(paginginfo.page * 10).get()
+            .addOnSuccessListener { result ->
+                val bestProducts = result.toObjects(Product::class.java)
+                paginginfo.isPagingEnd = bestProducts == paginginfo.oldBestProducts
+                paginginfo.oldBestProducts = bestProducts
+                viewModelScope.launch {
+                    _bestProducts.emit(Resource.Success(bestProducts))
+                }
+                paginginfo.page++
+            }.addOnFailureListener {
             viewModelScope.launch {
                 _bestProducts.emit(Resource.Error(it.message.toString()))
             }
         }
     }
-}
+    }
+    internal data class PagingInfo(
+        var page:Long=1,
+        var oldBestProducts:List<Product> = emptyList(),
+        var isPagingEnd : Boolean=false
+    )

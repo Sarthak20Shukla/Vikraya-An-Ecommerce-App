@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -97,23 +98,31 @@ class MainCategoryFragment :Fragment(R.layout.fragment_main_category) {
                 when(it){
 
                     is com.example.vikraya.utils.Resource.Error ->  {
-                        hideLoading()
+                        binding.bestProductsProgressbar.visibility = View.GONE
+
                         Log.e(TAG,it.message.toString())
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
 
                     is com.example.vikraya.utils.Resource.Loading -> {
-                        showLoading()
+                        binding.bestProductsProgressbar.visibility = View.VISIBLE
                     }
                     is com.example.vikraya.utils.Resource.Success -> {
                         bestProductsAdapter.differ.submitList(it.data)
-                        hideLoading()
+                        binding.bestProductsProgressbar.visibility = View.GONE
+
                     }
                     else ->Unit
 
                 }
             }
         }
+        binding.nestedScrollMainCategory.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+            v,_,scrollY,_,_ ->
+            if(v.getChildAt(0).bottom <= v.height+scrollY){
+                viewModel.fetchBestProducts()
+            }
+        })
     }
 
     private fun setupBestProductsRv() {
