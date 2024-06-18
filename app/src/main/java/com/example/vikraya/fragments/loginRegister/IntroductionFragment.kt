@@ -11,11 +11,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.vikraya.R
+import com.example.vikraya.activities.ShopingActivity
 import com.example.vikraya.databinding.FragmentIntroductionBinding
+import com.example.vikraya.viewModel.IntroductionViewModel
+import com.example.vikraya.viewModel.IntroductionViewModel.Companion.ACCOUNT_OPTIONS_FRAGMENT
+import com.example.vikraya.viewModel.IntroductionViewModel.Companion.SHOPPING_ACTIVITY
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class IntroductionFragment: Fragment(R.layout.fragment_introduction) {
     private lateinit var binding: FragmentIntroductionBinding
-
+    private val viewModel by viewModels<IntroductionViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,11 +34,11 @@ class IntroductionFragment: Fragment(R.layout.fragment_introduction) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       /* lifecycleScope.launchWhenStarted {
+       lifecycleScope.launchWhenStarted {
             viewModel.navigate.collect {
                 when (it) {
                      SHOPPING_ACTIVITY -> {
-                        Intent(requireActivity(), ShoppingActivity::class.java).also { intent ->
+                        Intent(requireActivity(), ShopingActivity::class.java).also { intent ->
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
                         }
@@ -45,9 +51,10 @@ class IntroductionFragment: Fragment(R.layout.fragment_introduction) {
                     else -> Unit
                 }
             }
-        }*/
+        }
 
         binding.buttonStart.setOnClickListener {
+            viewModel.startButtonClick()
             findNavController().navigate(R.id.action_introductionFragment_to_accountOptionsFragment)
         }
     }
