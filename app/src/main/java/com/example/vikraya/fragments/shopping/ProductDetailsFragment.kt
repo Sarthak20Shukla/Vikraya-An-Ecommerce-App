@@ -48,7 +48,7 @@ return  binding.root
         }
 binding.apply {
     tvProductName.text=products.name
-    tvProductPrice.text="$ ${products.price}"
+    tvProductPrice.text="₹ ${products.price}"
     tvProductDescription.text=products.description
     if(products.colors.isNullOrEmpty())
         tvProductColors.visibility=View.INVISIBLE

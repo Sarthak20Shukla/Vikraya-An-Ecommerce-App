@@ -20,11 +20,11 @@ class BestProductAdapter: RecyclerView.Adapter<BestProductAdapter.BestProductsVi
                 product.offerPercentage?.let{
                     val remainingPricePercentage =1f-it
                     val priceAfterOffer=remainingPricePercentage*product.price
-                    tvNewPrice.text="$ ${String.format("%.2f",priceAfterOffer)}"
+                    tvNewPrice.text="₹ ${String.format("%.2f",priceAfterOffer)}"
                     tvPrice.paintFlags=Paint.STRIKE_THRU_TEXT_FLAG
                 }
                 if(product.offerPercentage==null) tvNewPrice.visibility=View.INVISIBLE
-                tvPrice.text="$ ${product.price}"
+                tvPrice.text="₹ ${product.price}"
                 tvName.text=product.name;
             }
         }
