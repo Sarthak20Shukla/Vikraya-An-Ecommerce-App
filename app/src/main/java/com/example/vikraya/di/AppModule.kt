@@ -2,8 +2,10 @@ package com.example.vikraya.di
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
+import com.example.vikraya.firebase.FirebaseCommon
 import com.example.vikraya.utils.Constants.INTRODUCTION_SP
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -25,5 +27,10 @@ object AppModule {
 
     @Provides
     fun provideIntroductionSP(application: Application)=application.getSharedPreferences(INTRODUCTION_SP,MODE_PRIVATE)
-
+@Provides
+@Singleton
+fun provideFirebaseCommon(
+    firebaseAuth: FirebaseAuth,
+    firestore: FirebaseFirestore
+) = FirebaseCommon(firestore,firebaseAuth)
 }
