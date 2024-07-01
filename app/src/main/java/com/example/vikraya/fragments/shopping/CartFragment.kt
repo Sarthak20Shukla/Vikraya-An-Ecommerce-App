@@ -38,13 +38,17 @@ class CartFragment: Fragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupCartRv()
-
+        var totalPrice = 0f
         lifecycleScope.launchWhenStarted {
             viewModel.productsPrice.collectLatest { price ->
                 price?.let {
+                    totalPrice=it
                     binding.tvTotalprice.text="₹ $price"
                 }
             }
+        }
+        binding.imgCloseCart.setOnClickListener {
+            findNavController().navigateUp()
         }
         cartAdapter.onProductClick={
             val b=Bundle().apply { putParcelable("product",it.product)}
@@ -58,6 +62,12 @@ class CartFragment: Fragment(R.layout.fragment_cart) {
         cartAdapter.onMinusClick={
             viewModel.changeQuantity(it,FirebaseCommon.QuantityChanging.DECREASE)
         }
+
+        binding.btnCheckout.setOnClickListener {
+            val action=CartFragmentDirections.actionCartFragmentToBillingFragment(totalPrice,cartAdapter.differ.currentList.toTypedArray())
+            findNavController().navigate(action)
+        }
+
         lifecycleScope.launchWhenStarted {
             viewModel.deleteDialog.collectLatest {
                 val alertDialog=AlertDialog.Builder(requireContext()).apply {
