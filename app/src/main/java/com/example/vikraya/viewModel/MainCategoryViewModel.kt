@@ -1,17 +1,16 @@
 package com.example.vikraya.viewModel
 
-import android.app.DownloadManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vikraya.data.Product
 import com.example.vikraya.utils.Resource
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.core.Query
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class MainCategoryViewModel @Inject constructor(
 
