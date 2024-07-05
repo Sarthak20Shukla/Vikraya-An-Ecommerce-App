@@ -23,7 +23,8 @@ Vikraya is a robust eCommerce application that allows users to browse, search, a
 * *Authentication: Firebase Authentication*
 
 
-### :anchor: Features and Interface
+## :anchor: Features and Interface
+### Vikraya
 
 * **Startup Page || Login Page || Register Page**
 
@@ -55,13 +56,15 @@ Vikraya is a robust eCommerce application that allows users to browse, search, a
   
 3. **Profile**
 
-
-    <img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/329e9450-fb8e-46f6-8cc4-a59bb9d497c0" width="150" height="280" hspace="15">
+<img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/329e9450-fb8e-46f6-8cc4-a59bb9d497c0" width="150" height="280" hspace="15">
     <img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/e918e9ce-e893-410f-9300-9969eb3066e4" width="150" height="280" hspace="15">
     <img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/1c5beb79-0e8c-4b10-8451-f67ffcc88562" width="150" height="280" hspace="15">
     <img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/d65eb742-e3c6-41ae-a472-d5f0a571e7e6" width="150" height="280"> </br>
 
+### Products adder to Vikraya
 
+<img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/631197a9-64c6-4d14-9d4a-6fa974b28eb4" width="150" height="280" hspace="15">
+<img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/27de94a2-1dd0-45d0-8ad1-fa2d498f37dd" width="150" height="280"> </br>
 
 ## :dizzy: Contributer:-
 * *Sarthak Shukla*
