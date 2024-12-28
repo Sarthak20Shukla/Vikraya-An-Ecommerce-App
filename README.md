@@ -28,7 +28,7 @@ Vikraya is a robust eCommerce application that allows users to browse, search, a
 
 * **Startup Page || Login Page || Register Page**
 
-<img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/29b513ea-270e-47dd-8745-850106b963f4" width="150" height="280" hspace="15">      <img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/e31a8b27-9695-43f1-b59c-3f5bb969ef69" width="150" height="280" hspace="15">    <img src = "https://github.com/Sarthak20Shukla/Vikraya-An-Ecommerce-App/assets/99987596/52daa09a-af56-4365-8996-8de90c5594ef" width="150" height="280"> </br>
+<img src = "https://github.com/user-attachments/assets/2073721a-9ab5-46f6-a773-38096495127f" width="150" height="280" hspace="15">      <img src = "https://github.com/user-attachments/assets/63c6f51b-1b72-45fc-a831-01216d4cb882" width="150" height="280" hspace="15">    <img src = "https://github.com/user-attachments/assets/2ef8f92c-63ce-40e9-989f-c63e2f1d512e" width="150" height="280"> </br>
 
 * **Forget Password Page**
 
